@@ -1,0 +1,11 @@
+﻿<!-- Layout.razor -->
+@* With your layout file, you need to inherit the “LayoutComponentBase” 
+    class. This comes from the “Microsoft.AspNetCore.Components” assembly
+    and calling the @Body method will basically render different content 
+    depending on which page you are on. It’s a bit like the @RenderBody()
+    method used in MVC. *@
+
+@inherits LayoutComponentBase
+<div class="main">
+    @Body
+</div>

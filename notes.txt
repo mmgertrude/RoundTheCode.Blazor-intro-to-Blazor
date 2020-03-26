@@ -1,0 +1,97 @@
+step zero:
+create new ASP.NET Core Web Appln -> empty
+
+step 1:
+1) 
+Manage Nuget pkg -> install Microsoft.AspNetCore.Components
+
+in startup:
+add the services.   services.AddRazorPages(); // Configuration for Blazor
+                    services.AddServerSideBlazor(); // Configuration for Blazor
+
+
+2)
+adjust Configure in Startup.cs to this:
+ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseRouting();
+            app.UseStaticFiles();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapBlazorHub(); // Configuration for Blazor
+                endpoints.MapFallbackToPage("/_Host"); // Configuration for Blazor
+            });
+        }
+
+3)
+Add RootAssembly to Your .csproj File:
+<RootNamespace>RoundTheCode.Blazor</RootNamespace>
+
+4) 
+Create the “Razor” Part of the App:
+This is mainly done by creating a number of razor files.
+
+5) The Layout: create a layout for our Blazor application
+Create a folder called “Shared” in your Blazor application. 
+Right-click on the “Shared” folder and select “Add…” -> “New Item”. 
+You should find that there is an option to create a Razor Component. 
+Call it Layout.razor and press the “Add” button.
+
+Construct your Layout.razor file with razor code as desired
+
+6)
+Create the App for Blazor.  Go into the root of your project 
+and create a Razor component. Call it App.razor. Adjust its code.
+use the Router class within that and state the assembly that the
+application is part of. We get the assembly from the Program class.
+
+Inside the Router class, we have to specify a Found and NotFound. 
+The Found class needs to include a reference to our Layout file 
+that we just created
+
+7)
+ create the pages for our Blazor app.
+ Create a folder called “Pages”, and then add a new item. This time, 
+ rather than creating a Razor component, we need to create a Razor Page:
+ remember the _Host page in endpoints. .... startup? create a page for it
+
+ This file basically sets up the SPA. It provides us with our base HTML 
+ and where about’s in our code we want the Blazor app to run. You may notice
+ that we are calling a reference to “blazor.server.js”. As stated earlier,
+ this file allows for communication between the client and the server. 
+ This file should already be bundled into the framework.
+
+ create an Index.razor and Contact.razor inside the Pages folder.
+ You may notice that a @page reference to these files. 
+ This basically dictates the URL of when this content is rendered.
+
+ 8)
+ Run your Application
+ On starting the app, Index.razor is rendered as we specified “/” in the @page 
+ reference at the top of this page. We included a link to the Contact page, 
+ which when clicked will direct you to Contact.razor.
+
+One thing you may notice is that when you click on the Contact link, 
+the page content changes without a refresh of the page. 
+This is keeping with how SPA’s usually work.
+
+Remember in App.Razor that we set up a <NotFound> tag? Well, 
+if we put in a URL that doesn’t exist (like https://localhost:44371/dsfj), 
+it will display our not found message.
+
+Conclusion:
+" One thing that Blazor can do that other SPA’s struggle with is being able 
+to render these pages server-side. That makes it a lot easier for search engines 
+to read the content of your pages. When running the application, 
+view the source and you will see that the content inside your Blazor app 
+has been rendered.
+
+However, at time of publishing this article, it is worth noting that Blazor is 
+still in preview mode and Microsoft have yet to confirm a full release date 
+for Blazor. I personally hope it’s not too long away…"
